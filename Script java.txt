@@ -1,0 +1,34 @@
+CREATE DATABASE Escuela;
+USE Escuela;
+
+-- Tabla Profesor
+CREATE TABLE Profesor (
+    numProfesor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(30) NOT NULL,
+    apellido VARCHAR(30) NOT NULL,
+    RFC VARCHAR(13) NOT NULL UNIQUE
+);
+
+-- Tabla Unidad de Aprendizaje
+CREATE TABLE UnidadAprendizaje (
+    claveUA INT AUTO_INCREMENT PRIMARY KEY,
+    nombreUA VARCHAR(50) NOT NULL,
+    horasClase INT NOT NULL CHECK (horasClase >= 0),
+    horasTaller INT NOT NULL CHECK (horasTaller >= 0),
+    horasLaboratorio INT NOT NULL CHECK (horasLaboratorio >= 0)
+);
+
+-- Tabla Relacional: Profesor - Unidad de Aprendizaje (Muchos a Muchos)
+CREATE TABLE Profesor_UA (
+    numProfesor INT,
+    claveUA INT,
+    PRIMARY KEY (numProfesor, claveUA),
+    FOREIGN KEY (numProfesor) REFERENCES Profesor(numProfesor) ON DELETE CASCADE,
+    FOREIGN KEY (claveUA) REFERENCES UnidadAprendizaje(claveUA) ON DELETE CASCADE
+);
+
+-- Tabla Administrador
+CREATE TABLE Administrador (
+    usuario VARCHAR(20) PRIMARY KEY,
+    contrasena VARCHAR(255) NOT NULL -- Se recomienda almacenar hashes de contraseñas en vez de texto plano
+);
